@@ -1,0 +1,60 @@
+name: S3 Upload Deployment
+
+on:
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+
+
+jobs:
+  deploy:
+    name: Upload files to S3 bucket
+    runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
+      SLACK_MESSAGE_TAG: SSAHDA-FRONTEND
+      AWS_S3_BUCKET_URL: s3://ssahda
+      AWS_CLOUDFRONT_DISTRIBUTION_ID: E335GCZT831K6X
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Send start message to slack
+        uses: rtCamp/action-slack-notify@master
+        env:
+          SLACK_WEBHOOK: ${{ env.SLACK_WEBHOOK_URL }}
+          SLACK_USERNAME: Github Actions
+          SLACK_ICON_EMOJI: ':rocket:'
+          SLACK_COLOR: '#005050'
+          SLACK_MESSAGE: '[${{ env.SLACK_MESSAGE_TAG }}] Deployment Starting :rocket:'
+
+      - name: Build React
+        run: |
+          npm install npm@8.5.0 -g
+          npm ci
+          npm run build
+
+      - name: Copy files to the test website with the AWS CLI
+        run: |
+          aws s3 cp ./build ${{ env.AWS_S3_BUCKET_URL }} --recursive
+
+      - name: Invalidate Cloudfront Cache
+        uses: chetan/invalidate-cloudfront-action@master
+        env:
+          DISTRIBUTION: ${{ env.AWS_CLOUDFRONT_DISTRIBUTION_ID }}
+          PATHS: '/*'
+        continue-on-error: true
+
+      - name: Send start message to slack
+        uses: rtCamp/action-slack-notify@master
+        env:
+          SLACK_WEBHOOK: ${{ env.SLACK_WEBHOOK_URL }}
+          SLACK_USERNAME: Github Actions
+          SLACK_ICON_EMOJI: ':rocket:'
+          SLACK_MESSAGE: '[${{ env.SLACK_MESSAGE_TAG }}] Deployment Completed :heavy_check_mark:'
