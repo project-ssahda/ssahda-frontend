@@ -10,7 +10,7 @@ jobs:
     name: Upload files to S3 bucket
     runs-on: ubuntu-latest
     env:
-      SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
+      SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
       SLACK_MESSAGE_TAG: SSAHDA-FRONTEND
       AWS_S3_BUCKET_URL: s3://ssahda
       AWS_CLOUDFRONT_DISTRIBUTION_ID: E335GCZT831K6X
