@@ -40,7 +40,7 @@ jobs:
           npm run build
       - name: Copy files to the test website with the AWS CLI
         run: |
-          aws s3 cp ./build ${{ env.AWS_S3_BUCKET_URL }} --recursive
+          aws s3 cp ./dist ${{ env.AWS_S3_BUCKET_URL }} --recursive
       - name: Invalidate Cloudfront Cache
         uses: chetan/invalidate-cloudfront-action@master
         env:
