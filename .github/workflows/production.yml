@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SLACK_MESSAGE_TAG: SSAHDA-FRONTEND
-      AWS_S3_BUCKET_URL: s3://ssahda
+      AWS_S3_BUCKET_URL: s3://ssahda.com
       AWS_CLOUDFRONT_DISTRIBUTION_ID: E335GCZT831K6X
     steps:
       - name: Checkout
