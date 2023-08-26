@@ -25,14 +25,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      - name: Send start message to slack
-        uses: rtCamp/action-slack-notify@master
-        env:
-          SLACK_WEBHOOK: ${{ env.SLACK_WEBHOOK_URL }}
-          SLACK_USERNAME: Github Actions
-          SLACK_ICON_EMOJI: ':rocket:'
-          SLACK_COLOR: '#005050'
-          SLACK_MESSAGE: '[${{ env.SLACK_MESSAGE_TAG }}] Deployment Starting :rocket:'
+      # - name: Send start message to slack
+      #   uses: rtCamp/action-slack-notify@master
+      #   env:
+      #     SLACK_WEBHOOK: ${{ env.SLACK_WEBHOOK_URL }}
+      #     SLACK_USERNAME: Github Actions
+      #     SLACK_ICON_EMOJI: ':rocket:'
+      #     SLACK_COLOR: '#005050'
+      #     SLACK_MESSAGE: '[${{ env.SLACK_MESSAGE_TAG }}] Deployment Starting :rocket:'
 
       - name: Build React
         run: |
@@ -51,10 +51,10 @@ jobs:
           PATHS: '/*'
         continue-on-error: true
 
-      - name: Send start message to slack
-        uses: rtCamp/action-slack-notify@master
-        env:
-          SLACK_WEBHOOK: ${{ env.SLACK_WEBHOOK_URL }}
-          SLACK_USERNAME: Github Actions
-          SLACK_ICON_EMOJI: ':rocket:'
-          SLACK_MESSAGE: '[${{ env.SLACK_MESSAGE_TAG }}] Deployment Completed :heavy_check_mark:'
+      # - name: Send start message to slack
+      #   uses: rtCamp/action-slack-notify@master
+      #   env:
+      #     SLACK_WEBHOOK: ${{ env.SLACK_WEBHOOK_URL }}
+      #     SLACK_USERNAME: Github Actions
+      #     SLACK_ICON_EMOJI: ':rocket:'
+      #     SLACK_MESSAGE: '[${{ env.SLACK_MESSAGE_TAG }}] Deployment Completed :heavy_check_mark:'
